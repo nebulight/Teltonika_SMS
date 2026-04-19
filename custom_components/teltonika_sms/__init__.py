@@ -4,7 +4,9 @@ from __future__ import annotations
 import logging
 
 from homeassistant.config_entries import ConfigEntry
+from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers.discovery import async_load_platform
 
 from .const import DOMAIN
 from .services import async_register_services
@@ -17,9 +19,20 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     hass.data.setdefault(DOMAIN, {})
     hass.data[DOMAIN][entry.entry_id] = entry.data
 
-    # Register the send_sms service (only needs registering once)
+    # Register teltonika_sms.send_sms service
     if not hass.services.has_service(DOMAIN, "send_sms"):
         await async_register_services(hass)
+
+    # Load the notify platform so it appears under Notifications in the UI
+    hass.async_create_task(
+        async_load_platform(
+            hass,
+            Platform.NOTIFY,
+            DOMAIN,
+            {},
+            {},
+        )
+    )
 
     return True
 
@@ -28,7 +41,6 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Unload a config entry."""
     hass.data[DOMAIN].pop(entry.entry_id, None)
 
-    # Remove service if no more entries remain
     if not hass.data[DOMAIN]:
         hass.services.async_remove(DOMAIN, "send_sms")
 

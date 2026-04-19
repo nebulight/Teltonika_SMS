@@ -53,11 +53,7 @@ Any Teltonika router running **RutOS 7.14 or later** with the REST API enabled, 
 
 ## Installation
 
-### HACS Installation (Custom Repository)
-
-This integration is not yet available in the HACS default store, however you can still install it via [HACS](https://www.hacs.xyz/docs/use/) as a custom repository:
-
-[![Open this repository in your Home Assistant instance.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=nebulight&repository=Teltonika_SMS&category=integration)
+### Via HACS (recommended)
 
 1. Open HACS in Home Assistant.
 2. Go to **Integrations** → click the three-dot menu → **Custom repositories**.
@@ -87,14 +83,14 @@ This integration is not yet available in the HACS default store, however you can
    | Router IP / Hostname | IP address or hostname of your router | `192.168.1.1` |
    | Username | Router admin username | `admin` |
    | Password | Router admin password | *(your password)* |
-   | Modem ID | Modem identifier on the router | `3-1` |
+   | Modem ID | Modem identifier on the router | `1-1` |
    | Verify SSL | Validate SSL certificate (leave off for HTTP) | off |
 
 4. Click **Submit** — the integration will test the connection before saving.
 
 ### Finding your Modem ID
 
-The modem ID is usually `3-1` on single-modem devices like the RUTX11. To confirm, SSH into your router and run:
+The modem ID is almost always `1-1` on single-modem devices like the RUTX11. To confirm, SSH into your router and run:
 
 ```sh
 cat /etc/board.json | jsonfilter -e '@.modems[0].id'
