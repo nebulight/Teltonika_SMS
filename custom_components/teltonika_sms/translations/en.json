@@ -12,19 +12,58 @@
           "verify_ssl": "Verify SSL certificate"
         },
         "data_description": {
-          "host": "e.g. 192.168.1.1 or http://192.168.1.1",
+          "host": "e.g. 192.168.1.1 — http:// will be added automatically",
           "modem": "Usually '1-1' for single-modem devices like the RUTX11. SSH in and run: cat /etc/board.json | jsonfilter -e '@.modems[0].id'",
-          "verify_ssl": "Disable if your router uses a self-signed certificate (recommended for most setups)"
+          "verify_ssl": "Leave off for most routers (they use self-signed certificates)"
         }
       }
     },
     "error": {
-      "cannot_connect": "Cannot connect to the router. Check the IP address and ensure the router is reachable from Home Assistant.",
+      "cannot_connect": "Cannot connect to the router. Check the IP address and that the router is reachable from Home Assistant.",
       "invalid_auth": "Invalid username or password.",
-      "unknown": "Unexpected error. Check the Home Assistant logs for details."
+      "unknown": "Unexpected error — check the Home Assistant logs for details (search for 'teltonika')."
     },
     "abort": {
       "already_configured": "This router is already configured."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Teltonika SMS options",
+        "menu_options": {
+          "test_sms": "Send a test SMS",
+          "reconfigure": "Update router credentials"
+        }
+      },
+      "test_sms": {
+        "title": "Send a test SMS",
+        "description": "Enter a phone number to send a test message to. This will use your configured router immediately.",
+        "data": {
+          "test_number": "Phone number (international format)",
+          "test_message": "Test message"
+        },
+        "data_description": {
+          "test_number": "e.g. +12025551234"
+        }
+      },
+      "reconfigure": {
+        "title": "Update router settings",
+        "description": "Update your router connection details. Your current values are pre-filled.",
+        "data": {
+          "host": "Router IP address or hostname",
+          "username": "Username",
+          "password": "Password",
+          "modem": "Modem ID",
+          "verify_ssl": "Verify SSL certificate"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Cannot connect to the router. Check the IP address.",
+      "invalid_auth": "Invalid username or password.",
+      "test_failed": "Test SMS failed: {error}",
+      "unknown": "Unexpected error — check the Home Assistant logs."
     }
   }
 }
