@@ -165,7 +165,7 @@ async def send_sms(hass: HomeAssistant, phone_number: str, message: str) -> None
     host = _normalise_host(entry_data[CONF_HOST])
     username = entry_data[CONF_USERNAME]
     password = entry_data[CONF_PASSWORD]
-    modem = entry_data.get(CONF_MODEM, "1-1")
+    modem = entry_data.get(CONF_MODEM, "3-1")
     verify_ssl = entry_data.get(CONF_VERIFY_SSL, False)
 
     _LOGGER.debug(

@@ -12,9 +12,15 @@
           "verify_ssl": "Verify SSL certificate"
         },
         "data_description": {
+<<<<<<< HEAD
           "host": "e.g. 192.168.1.1 — http:// is added automatically if omitted",
           "modem": "Usually '1-1' for single-modem devices like the RUTX11. To confirm, SSH in and run: cat /etc/board.json | jsonfilter -e '@.modems[0].id'",
           "verify_ssl": "Leave off for most routers — they use self-signed certificates"
+=======
+          "host": "e.g. 192.168.1.1 — http:// will be added automatically",
+          "modem": "Usually '3-1' for single-modem devices like the RUTX11. SSH in and run: cat /etc/board.json | jsonfilter -e '@.modems[0].id'",
+          "verify_ssl": "Leave off for most routers (they use self-signed certificates)"
+>>>>>>> 7557728a355b76afa1fede4ec7b61b5b5a44339d
         }
       }
     },

@@ -3,7 +3,11 @@
   "name": "Teltonika SMS",
   "version": "1.2.0",
   "documentation": "https://github.com/nebulight/Teltonika_SMS",
+<<<<<<< HEAD
   "issue_tracker": "https://github.com/nebulight/Teltonika_SMS/issues",
+=======
+  "issue_tracker": "https://github.com/nebulight/Teltonika_SMS",
+>>>>>>> 7557728a355b76afa1fede4ec7b61b5b5a44339d
   "requirements": [],
   "dependencies": [],
   "codeowners": ["@nebulight"],
