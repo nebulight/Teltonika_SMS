@@ -13,7 +13,7 @@
         },
         "data_description": {
           "host": "e.g. 192.168.1.1 — http:// will be added automatically",
-          "modem": "Usually '1-1' for single-modem devices like the RUTX11. SSH in and run: cat /etc/board.json | jsonfilter -e '@.modems[0].id'",
+          "modem": "Usually '3-1' for single-modem devices like the RUTX11. SSH in and run: cat /etc/board.json | jsonfilter -e '@.modems[0].id'",
           "verify_ssl": "Leave off for most routers (they use self-signed certificates)"
         }
       }
