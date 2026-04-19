@@ -12,6 +12,7 @@ from homeassistant import config_entries
 from homeassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.data_entry_flow import FlowResult
+import homeassistant.helpers.selector as selector
 
 from .const import (
     CONF_MODEM,
@@ -43,7 +44,9 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> dict[str,
                 timeout=aiohttp.ClientTimeout(total=10),
             ) as resp:
                 raw = await resp.text()
-                _LOGGER.debug("Teltonika config flow login HTTP %s — %s", resp.status, raw)
+                _LOGGER.debug(
+                    "Teltonika SMS config flow: login HTTP %s — %s", resp.status, raw
+                )
                 if resp.status == 403:
                     raise InvalidAuth
                 if resp.status != 200:
@@ -69,7 +72,9 @@ class TeltonikaConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
     @staticmethod
     @callback
-    def async_get_options_flow(config_entry: config_entries.ConfigEntry):
+    def async_get_options_flow(
+        config_entry: config_entries.ConfigEntry,
+    ) -> TeltonikaOptionsFlow:
         return TeltonikaOptionsFlow(config_entry)
 
     async def async_step_user(
@@ -92,34 +97,63 @@ class TeltonikaConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 self._abort_if_unique_id_configured()
                 return self.async_create_entry(title=info["title"], data=user_input)
 
-        schema = vol.Schema(
-            {
-                vol.Required(CONF_HOST, description={"suggested_value": "192.168.1.1"}): str,
-                vol.Required(CONF_USERNAME, default="admin"): str,
-                vol.Required(CONF_PASSWORD): str,
-                vol.Required(CONF_MODEM, default="1-1"): str,
-                vol.Optional(CONF_VERIFY_SSL, default=False): bool,
-            }
+        return self.async_show_form(
+            step_id="user",
+            data_schema=vol.Schema(
+                {
+                    vol.Required(
+                        CONF_HOST,
+                        description={"suggested_value": "192.168.1.1"},
+                    ): str,
+                    vol.Required(CONF_USERNAME, default="admin"): str,
+                    vol.Required(CONF_PASSWORD): str,
+                    vol.Required(CONF_MODEM, default="1-1"): str,
+                    vol.Optional(CONF_VERIFY_SSL, default=False): bool,
+                }
+            ),
+            errors=errors,
         )
-
-        return self.async_show_form(step_id="user", data_schema=schema, errors=errors)
 
 
 class TeltonikaOptionsFlow(config_entries.OptionsFlow):
-    """Options flow: test SMS and reconfigure."""
+    """Options: send test SMS or update credentials."""
 
     def __init__(self, config_entry: config_entries.ConfigEntry) -> None:
-        self.config_entry = config_entry
+        self._config_entry = config_entry
 
-    async def async_step_init(self, user_input: dict[str, Any] | None = None) -> FlowResult:
-        return self.async_show_menu(
+    async def async_step_init(
+        self, user_input: dict[str, Any] | None = None
+    ) -> FlowResult:
+        """First screen — choose what to do."""
+        if user_input is not None:
+            if user_input["action"] == "test_sms":
+                return await self.async_step_test_sms()
+            return await self.async_step_reconfigure()
+
+        return self.async_show_form(
             step_id="init",
-            menu_options=["test_sms", "reconfigure"],
+            data_schema=vol.Schema(
+                {
+                    vol.Required("action", default="test_sms"): selector.selector(
+                        {
+                            "select": {
+                                "options": [
+                                    {"value": "test_sms", "label": "Send a test SMS"},
+                                    {"value": "reconfigure", "label": "Update router credentials"},
+                                ]
+                            }
+                        }
+                    )
+                }
+            ),
         )
 
-    async def async_step_test_sms(self, user_input: dict[str, Any] | None = None) -> FlowResult:
+    async def async_step_test_sms(
+        self, user_input: dict[str, Any] | None = None
+    ) -> FlowResult:
+        """Send a test SMS and show the result inline."""
         errors: dict[str, str] = {}
-        description_placeholders: dict[str, str] = {}
+        description_placeholders: dict[str, str] = {"error": ""}
 
         if user_input is not None:
             from .services import send_sms
@@ -127,10 +161,12 @@ class TeltonikaOptionsFlow(config_entries.OptionsFlow):
                 await send_sms(
                     self.hass,
                     user_input["test_number"],
-                    user_input.get("test_message", "Test from Home Assistant Teltonika SMS"),
+                    user_input.get(
+                        "test_message", "Test from Home Assistant Teltonika SMS"
+                    ),
                 )
                 return self.async_create_entry(title="", data={})
-            except Exception as exc:
+            except Exception as exc:  # pylint: disable=broad-except
                 _LOGGER.error("Teltonika SMS test failed: %s", exc)
                 errors["base"] = "test_failed"
                 description_placeholders["error"] = str(exc)
@@ -150,9 +186,12 @@ class TeltonikaOptionsFlow(config_entries.OptionsFlow):
             description_placeholders=description_placeholders,
         )
 
-    async def async_step_reconfigure(self, user_input: dict[str, Any] | None = None) -> FlowResult:
+    async def async_step_reconfigure(
+        self, user_input: dict[str, Any] | None = None
+    ) -> FlowResult:
+        """Update router credentials without removing the integration."""
         errors: dict[str, str] = {}
-        current = self.config_entry.data
+        current = self._config_entry.data
 
         if user_input is not None:
             try:
@@ -162,22 +201,36 @@ class TeltonikaOptionsFlow(config_entries.OptionsFlow):
             except InvalidAuth:
                 errors["base"] = "invalid_auth"
             except Exception:
+                _LOGGER.exception("Unexpected error during reconfigure")
                 errors["base"] = "unknown"
             else:
-                self.hass.config_entries.async_update_entry(self.config_entry, data=user_input)
+                self.hass.config_entries.async_update_entry(
+                    self._config_entry, data=user_input
+                )
                 return self.async_create_entry(title="", data={})
 
-        schema = vol.Schema(
-            {
-                vol.Required(CONF_HOST, default=current.get(CONF_HOST, "")): str,
-                vol.Required(CONF_USERNAME, default=current.get(CONF_USERNAME, "admin")): str,
-                vol.Required(CONF_PASSWORD, default=current.get(CONF_PASSWORD, "")): str,
-                vol.Required(CONF_MODEM, default=current.get(CONF_MODEM, "1-1")): str,
-                vol.Optional(CONF_VERIFY_SSL, default=current.get(CONF_VERIFY_SSL, False)): bool,
-            }
+        return self.async_show_form(
+            step_id="reconfigure",
+            data_schema=vol.Schema(
+                {
+                    vol.Required(CONF_HOST, default=current.get(CONF_HOST, "")): str,
+                    vol.Required(
+                        CONF_USERNAME, default=current.get(CONF_USERNAME, "admin")
+                    ): str,
+                    vol.Required(
+                        CONF_PASSWORD, default=current.get(CONF_PASSWORD, "")
+                    ): str,
+                    vol.Required(
+                        CONF_MODEM, default=current.get(CONF_MODEM, "1-1")
+                    ): str,
+                    vol.Optional(
+                        CONF_VERIFY_SSL,
+                        default=current.get(CONF_VERIFY_SSL, False),
+                    ): bool,
+                }
+            ),
+            errors=errors,
         )
-
-        return self.async_show_form(step_id="reconfigure", data_schema=schema, errors=errors)
 
 
 class CannotConnect(Exception):

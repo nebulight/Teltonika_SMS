@@ -3,7 +3,7 @@
     "step": {
       "user": {
         "title": "Connect to your Teltonika router",
-        "description": "Enter the details for your Teltonika router. The router must be reachable from Home Assistant.",
+        "description": "Enter the connection details for your Teltonika router. It must be reachable from Home Assistant.",
         "data": {
           "host": "Router IP address or hostname",
           "username": "Username",
@@ -12,16 +12,16 @@
           "verify_ssl": "Verify SSL certificate"
         },
         "data_description": {
-          "host": "e.g. 192.168.1.1 — http:// will be added automatically",
-          "modem": "Usually '1-1' for single-modem devices like the RUTX11. SSH in and run: cat /etc/board.json | jsonfilter -e '@.modems[0].id'",
-          "verify_ssl": "Leave off for most routers (they use self-signed certificates)"
+          "host": "e.g. 192.168.1.1 — http:// is added automatically if omitted",
+          "modem": "Usually '1-1' for single-modem devices like the RUTX11. To confirm, SSH in and run: cat /etc/board.json | jsonfilter -e '@.modems[0].id'",
+          "verify_ssl": "Leave off for most routers — they use self-signed certificates"
         }
       }
     },
     "error": {
       "cannot_connect": "Cannot connect to the router. Check the IP address and that the router is reachable from Home Assistant.",
       "invalid_auth": "Invalid username or password.",
-      "unknown": "Unexpected error — check the Home Assistant logs for details (search for 'teltonika')."
+      "unknown": "Unexpected error — check the Home Assistant logs (search for 'teltonika')."
     },
     "abort": {
       "already_configured": "This router is already configured."
@@ -30,26 +30,25 @@
   "options": {
     "step": {
       "init": {
-        "title": "Teltonika SMS options",
-        "menu_options": {
-          "test_sms": "Send a test SMS",
-          "reconfigure": "Update router credentials"
+        "title": "Teltonika SMS",
+        "data": {
+          "action": "What would you like to do?"
         }
       },
       "test_sms": {
         "title": "Send a test SMS",
-        "description": "Enter a phone number to send a test message to. This will use your configured router immediately.",
+        "description": "Send a test message immediately using your configured router.",
         "data": {
-          "test_number": "Phone number (international format)",
-          "test_message": "Test message"
+          "test_number": "Phone number",
+          "test_message": "Message"
         },
         "data_description": {
-          "test_number": "e.g. +12025551234"
+          "test_number": "International format, e.g. +12025551234"
         }
       },
       "reconfigure": {
         "title": "Update router settings",
-        "description": "Update your router connection details. Your current values are pre-filled.",
+        "description": "Update your router connection details. Current values are pre-filled.",
         "data": {
           "host": "Router IP address or hostname",
           "username": "Username",
@@ -62,7 +61,7 @@
     "error": {
       "cannot_connect": "Cannot connect to the router. Check the IP address.",
       "invalid_auth": "Invalid username or password.",
-      "test_failed": "Test SMS failed: {error}",
+      "test_failed": "Test SMS failed — {error}",
       "unknown": "Unexpected error — check the Home Assistant logs."
     }
   }

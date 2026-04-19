@@ -2,11 +2,11 @@
   "domain": "teltonika_sms",
   "name": "Teltonika SMS",
   "version": "1.2.0",
-  "documentation": "https://github.com/YOUR_USERNAME/ha-teltonika-sms",
-  "issue_tracker": "https://github.com/YOUR_USERNAME/ha-teltonika-sms/issues",
+  "documentation": "https://github.com/nebulight/Teltonika_SMS",
+  "issue_tracker": "https://github.com/nebulight/Teltonika_SMS/issues",
   "requirements": [],
   "dependencies": [],
-  "codeowners": [],
+  "codeowners": ["@nebulight"],
   "config_flow": true,
   "iot_class": "local_push"
 }
