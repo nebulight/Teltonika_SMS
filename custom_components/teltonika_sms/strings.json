@@ -1,0 +1,25 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect to Teltonika Router",
+        "description": "Enter the details for your Teltonika router (e.g. RUTX11). The host can be an IP address or hostname.",
+        "data": {
+          "host": "Router IP / Hostname",
+          "username": "Username",
+          "password": "Password",
+          "modem": "Modem ID (e.g. 1-1)",
+          "verify_ssl": "Verify SSL certificate"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Cannot connect to the router. Check the host/IP and that the router is reachable.",
+      "invalid_auth": "Invalid username or password.",
+      "unknown": "Unexpected error. Check the Home Assistant logs."
+    },
+    "abort": {
+      "already_configured": "This router is already configured."
+    }
+  }
+}

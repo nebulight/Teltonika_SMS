@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
+  <!-- Background -->
+  <rect x="0" y="0" width="500" height="500" rx="70" fill="#001A77"/>
+
+  <!-- Subtle grid texture -->
+  <g opacity="0.07">
+    <line x1="0" y1="100" x2="500" y2="100" stroke="#ffffff" stroke-width="1"/>
+    <line x1="0" y1="200" x2="500" y2="200" stroke="#ffffff" stroke-width="1"/>
+    <line x1="0" y1="300" x2="500" y2="300" stroke="#ffffff" stroke-width="1"/>
+    <line x1="0" y1="400" x2="500" y2="400" stroke="#ffffff" stroke-width="1"/>
+    <line x1="100" y1="0" x2="100" y2="500" stroke="#ffffff" stroke-width="1"/>
+    <line x1="200" y1="0" x2="200" y2="500" stroke="#ffffff" stroke-width="1"/>
+    <line x1="300" y1="0" x2="300" y2="500" stroke="#ffffff" stroke-width="1"/>
+    <line x1="400" y1="0" x2="400" y2="500" stroke="#ffffff" stroke-width="1"/>
+  </g>
+
+  <!-- "T" lettermark -->
+  <rect x="95" y="120" width="310" height="68" rx="12" fill="#ffffff"/>
+  <rect x="216" y="120" width="68" height="270" rx="12" fill="#ffffff"/>
+  <rect x="216" y="362" width="68" height="12" rx="6" fill="#698CCE"/>
+
+  <!-- SMS badge -->
+  <circle cx="405" cy="405" r="108" fill="#ffffff"/>
+  <circle cx="405" cy="405" r="98" fill="#001A77"/>
+
+  <!-- Speech bubble -->
+  <rect x="348" y="363" width="114" height="70" rx="14" fill="#ffffff"/>
+  <polygon points="360,433 340,460 382,433" fill="#ffffff"/>
+
+  <!-- Dots -->
+  <circle cx="380" cy="398" r="8" fill="#001A77"/>
+  <circle cx="405" cy="398" r="8" fill="#001A77"/>
+  <circle cx="430" cy="398" r="8" fill="#001A77"/>
+
+  <!-- SMS label -->
+  <text x="405" y="464" text-anchor="middle" font-family="system-ui,Arial,sans-serif" font-size="20" font-weight="700" fill="#698CCE" letter-spacing="2">SMS</text>
+</svg>

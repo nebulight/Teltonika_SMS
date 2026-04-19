@@ -1,0 +1,21 @@
+send_sms:
+  name: Send SMS
+  description: >
+    Send an SMS message via the Teltonika router (RUTX11 or compatible).
+  fields:
+    phone_number:
+      name: Phone Number
+      description: >
+        The recipient's phone number in international format (e.g. +12025551234).
+      required: true
+      example: "+12025551234"
+      selector:
+        text:
+    message:
+      name: Message
+      description: The text message to send (max 8 concatenated SMS segments).
+      required: true
+      example: "Hello from Home Assistant!"
+      selector:
+        text:
+          multiline: true
