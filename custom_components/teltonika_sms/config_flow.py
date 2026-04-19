@@ -97,7 +97,6 @@ class TeltonikaConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 self._abort_if_unique_id_configured()
                 return self.async_create_entry(title=info["title"], data=user_input)
 
-<<<<<<< HEAD
         return self.async_show_form(
             step_id="user",
             data_schema=vol.Schema(
@@ -113,16 +112,6 @@ class TeltonikaConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 }
             ),
             errors=errors,
-=======
-        schema = vol.Schema(
-            {
-                vol.Required(CONF_HOST, description={"suggested_value": "192.168.1.1"}): str,
-                vol.Required(CONF_USERNAME, default="admin"): str,
-                vol.Required(CONF_PASSWORD): str,
-                vol.Required(CONF_MODEM, default="3-1"): str,
-                vol.Optional(CONF_VERIFY_SSL, default=False): bool,
-            }
->>>>>>> 7557728a355b76afa1fede4ec7b61b5b5a44339d
         )
 
 
@@ -220,7 +209,6 @@ class TeltonikaOptionsFlow(config_entries.OptionsFlow):
                 )
                 return self.async_create_entry(title="", data={})
 
-<<<<<<< HEAD
         return self.async_show_form(
             step_id="reconfigure",
             data_schema=vol.Schema(
@@ -242,16 +230,6 @@ class TeltonikaOptionsFlow(config_entries.OptionsFlow):
                 }
             ),
             errors=errors,
-=======
-        schema = vol.Schema(
-            {
-                vol.Required(CONF_HOST, default=current.get(CONF_HOST, "")): str,
-                vol.Required(CONF_USERNAME, default=current.get(CONF_USERNAME, "admin")): str,
-                vol.Required(CONF_PASSWORD, default=current.get(CONF_PASSWORD, "")): str,
-                vol.Required(CONF_MODEM, default=current.get(CONF_MODEM, "3-1")): str,
-                vol.Optional(CONF_VERIFY_SSL, default=current.get(CONF_VERIFY_SSL, False)): bool,
-            }
->>>>>>> 7557728a355b76afa1fede4ec7b61b5b5a44339d
         )
 
 

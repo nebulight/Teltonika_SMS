@@ -83,7 +83,7 @@ Any Teltonika router running **RutOS 7.14 or later** with the REST API enabled, 
    | Router IP / Hostname | IP address or hostname of your router | `192.168.1.1` |
    | Username | Router admin username | `admin` |
    | Password | Router admin password | *(your password)* |
-   | Modem ID | Modem identifier on the router | `3-1` |
+   | Modem ID | Modem identifier on the router | `1-1` |
    | Verify SSL | Validate SSL certificate (leave off for HTTP) | off |
 
 4. Click **Submit** — the integration will test the connection before saving.
