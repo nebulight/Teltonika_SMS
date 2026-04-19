@@ -8,7 +8,7 @@
           "host": "Router IP / Hostname",
           "username": "Username",
           "password": "Password",
-          "modem": "Modem ID (e.g. 1-1)",
+          "modem": "Modem ID (e.g. 3-1)",
           "verify_ssl": "Verify SSL certificate"
         }
       }
