@@ -53,7 +53,11 @@ Any Teltonika router running **RutOS 7.14 or later** with the REST API enabled, 
 
 ## Installation
 
-### Via HACS (recommended)
+### HACS Installation (Custom Repository)
+
+This integration is not yet available in the HACS default store, however you can still install it via [HACS](https://www.hacs.xyz/docs/use/) as a custom repository:
+
+[![Open this repository in your Home Assistant instance.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=nebulight&repository=Teltonika_SMS&category=integration)
 
 1. Open HACS in Home Assistant.
 2. Go to **Integrations** → click the three-dot menu → **Custom repositories**.
