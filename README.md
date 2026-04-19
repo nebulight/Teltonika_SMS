@@ -94,7 +94,7 @@ This integration is not yet available in the HACS default store, however you can
 
 ### Finding your Modem ID
 
-The modem ID is almost always `1-1` on single-modem devices like the RUTX11. To confirm, SSH into your router and run:
+The modem ID is usually `3-1` on single-modem devices like the RUTX11. To confirm, SSH into your router and run:
 
 ```sh
 cat /etc/board.json | jsonfilter -e '@.modems[0].id'
