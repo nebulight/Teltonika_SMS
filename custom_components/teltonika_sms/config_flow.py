@@ -97,7 +97,7 @@ class TeltonikaConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 vol.Required(CONF_HOST, description={"suggested_value": "192.168.1.1"}): str,
                 vol.Required(CONF_USERNAME, default="admin"): str,
                 vol.Required(CONF_PASSWORD): str,
-                vol.Required(CONF_MODEM, default="1-1"): str,
+                vol.Required(CONF_MODEM, default="3-1"): str,
                 vol.Optional(CONF_VERIFY_SSL, default=False): bool,
             }
         )
@@ -172,7 +172,7 @@ class TeltonikaOptionsFlow(config_entries.OptionsFlow):
                 vol.Required(CONF_HOST, default=current.get(CONF_HOST, "")): str,
                 vol.Required(CONF_USERNAME, default=current.get(CONF_USERNAME, "admin")): str,
                 vol.Required(CONF_PASSWORD, default=current.get(CONF_PASSWORD, "")): str,
-                vol.Required(CONF_MODEM, default=current.get(CONF_MODEM, "1-1")): str,
+                vol.Required(CONF_MODEM, default=current.get(CONF_MODEM, "3-1")): str,
                 vol.Optional(CONF_VERIFY_SSL, default=current.get(CONF_VERIFY_SSL, False)): bool,
             }
         )
