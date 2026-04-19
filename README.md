@@ -83,14 +83,14 @@ Any Teltonika router running **RutOS 7.14 or later** with the REST API enabled, 
    | Router IP / Hostname | IP address or hostname of your router | `192.168.1.1` |
    | Username | Router admin username | `admin` |
    | Password | Router admin password | *(your password)* |
-   | Modem ID | Modem identifier on the router | `1-1` |
+   | Modem ID | Modem identifier on the router | `3-1` |
    | Verify SSL | Validate SSL certificate (leave off for HTTP) | off |
 
 4. Click **Submit** — the integration will test the connection before saving.
 
 ### Finding your Modem ID
 
-The modem ID is almost always `1-1` on single-modem devices like the RUTX11. To confirm, SSH into your router and run:
+The modem ID is usually `3-1` on single-modem devices like the RUTX11. To confirm, SSH into your router and run:
 
 ```sh
 cat /etc/board.json | jsonfilter -e '@.modems[0].id'
